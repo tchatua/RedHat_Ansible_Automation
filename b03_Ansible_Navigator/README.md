@@ -8,6 +8,8 @@ Ansible navigator is command line tool with a Text User Interface that help me:
 - view playbook structure
 - task details
 - and manage automation workflows more easily
+- Browse ansible collections and documentation
+-support yaml-formated files and customization
 ```
 
 ![alt text](image-1.png)
