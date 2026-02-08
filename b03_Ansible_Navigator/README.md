@@ -1,5 +1,9 @@
 # Ansible Navigator
 
+```css
+Ansible navigator is command line tool with a Text User Interface that help me run Ansible Playbooks
+```
+
 ![alt text](image-1.png)
 
 ![alt text](image.png)
