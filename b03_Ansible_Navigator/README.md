@@ -2,9 +2,11 @@
 
 ```css
 Ansible navigator is command line tool with a Text User Interface that help me:
-- run Ansible Playbooks
-- browse inventory
-- review logs
+- run Ansible Playbooks interactively or in quiet mode
+- browse inventory(view inventories)
+- review logs (output logs)
+- view playbook structure
+- task details
 - and manage automation workflows more easily
 ```
 
