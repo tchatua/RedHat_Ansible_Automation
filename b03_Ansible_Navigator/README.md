@@ -14,8 +14,6 @@ Ansible navigator is command line tool with a Text User Interface that help me:
 
 ![alt text](image-1.png)
 
-![alt text](image.png)
-
 ![alt text](image-2.png)
 
 ## Navigator Modes Explaines: Run, Inventory, Collections, and more
@@ -51,6 +49,7 @@ Last login: Sat Feb  7 21:56:08 2026 from 173.61.6.206
 uid=1000(ec2-user) gid=1000(ec2-user) groups=1000(ec2-user),4(adm),190(systemd-journal) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
 ```
 
+## 1st: install Ansible core package
 ```sh
 # sudo dnf install ansible-core -y
 [ec2-user@ansiblecontroller ~]$ sudo dnf install ansible-core -y
