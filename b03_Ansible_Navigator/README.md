@@ -63,7 +63,10 @@ Package ansible-core-1:2.14.18-1.el9.x86_64 is already installed.
 Dependencies resolved.
 Nothing to do.
 Complete!
+```
 
+## Install Pip for Python 3
+```sh
 [ec2-user@ansiblecontroller ~]$ sudo dnf install python3-pip -y
 Updating Subscription Management repositories.
 Unable to read consumer identity
@@ -81,7 +84,10 @@ Complete!
 [ec2-user@ansiblecontroller ~]$ su ansadmin
 Password:
 [ansadmin@ansiblecontroller ec2-user]$
+```
 
+## install ansible-navigator only for the current user
+```sh
 [ansadmin@ansiblecontroller ec2-user]$ pip3 install ansible-navigator --user
 Requirement already satisfied: ansible-navigator in /home/ansadmin/.local/lib/python3.9/site-packages (24.2.0)
 Requirement already satisfied: ansible-builder>=3.0.0 in /home/ansadmin/.local/lib/python3.9/site-packages (from ansible-navigator) (3.1.1)
@@ -137,19 +143,18 @@ Requirement already satisfied: ply==3.11 in /usr/lib/python3.9/site-packages (fr
 [ansadmin@ansiblecontroller ec2-user]$
 ```
 
-- Installation verification
+## Installation verification
 
 ```sh
 [ansadmin@ansiblecontroller ec2-user]$ ansible-navigator --version
 ansible-navigator 24.2.0
-
-
 ```
 
 ## Setting Up Ansible Navigator
 
 ![alt text](image-5.png)
 
+> Installing podman container engine
 ```sh
 [ansadmin@ansiblecontroller ~]$ sudo dnf install podman -y
 Updating Subscription Management repositories.
@@ -194,7 +199,9 @@ Upgraded:
 
 Complete!
 
+```
 
+```sh
 sudo podman images
 REPOSITORY  TAG         IMAGE ID    CREATED     SIZE
 
@@ -220,11 +227,17 @@ REPOSITORY  TAG         IMAGE ID    CREATED     SIZE
 18│happy automating,
 19│
 20│-winston
+```
 
-
+```sh
 podman images
 Failed to obtain podman configuration: mkdir /run/user/1000/libpod: permission denied
 
+```
+
+- Fix **podman images** CLI:
+
+```sh
 [ansadmin@ansiblecontroller ~]$ sudo mkdir -p /run/user/1000
 
 [ansadmin@ansiblecontroller ~]$ sudo chown ansadmin:ansadmin /run/user/1000
@@ -235,8 +248,6 @@ Failed to obtain podman configuration: mkdir /run/user/1000/libpod: permission d
 REPOSITORY                  TAG         IMAGE ID      CREATED      SIZE
 ghcr.io/ansible/creator-ee  v0.22.0     4405e824c556  2 years ago  869 MB
 WARN[0000] Failed to add pause process to systemd sandbox cgroup: dial unix /run/user/1000/bus: connect: connection refused
-
-
 
 [ansadmin@ansiblecontroller ~]$ podman images
 REPOSITORY                  TAG         IMAGE ID      CREATED      SIZE
