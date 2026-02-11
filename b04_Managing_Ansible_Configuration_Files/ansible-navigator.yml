@@ -1,0 +1,14 @@
+ansible-navigator:        # Main configuration block for ansible-navigator
+  execution-environment:  # Controls whether Ansible runs inside a container (Podman/Docker)
+    enabled: false         # if true: ansible-navigator runs inside a container (execution environment)
+
+    image: ghcr.io/ansible/creator-ee:latest
+    # Container image that would be used IF execution environments were enabled
+    # This image contains Ansible, collections, and dependencies
+
+    pull:
+      policy: missing 
+      # missing → pull the container image only if it does not already exist locally
+      # always  → always pull the latest image
+      # never   → never pull the image
+
