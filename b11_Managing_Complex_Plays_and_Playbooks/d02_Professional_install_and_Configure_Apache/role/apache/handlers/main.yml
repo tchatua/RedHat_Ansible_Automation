@@ -1,0 +1,8 @@
+---
+# ##################################
+# Restart Apache only when needed.
+# ##################################
+- name: restart apache
+  ansible.builtin.service:
+    name: "{{ apache_service }}"
+    state: restarted

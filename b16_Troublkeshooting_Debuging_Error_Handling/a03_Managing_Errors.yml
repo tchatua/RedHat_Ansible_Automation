@@ -1,0 +1,17 @@
+---
+- name: Install Apache2
+  hosts: dev
+  become: true
+
+  tasks:
+    - name: Install Apache2
+      ansible.builtin.apt:
+        name: apache2
+        state: absent
+        # state: present
+        update_cache: true
+      register: results_output
+
+    - name: Display the output of results_output   
+      debug:  
+        var: results_output

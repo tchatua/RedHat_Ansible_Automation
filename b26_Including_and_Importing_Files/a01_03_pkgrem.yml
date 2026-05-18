@@ -1,0 +1,11 @@
+---
+# pkgrem.yml
+- name: Uninstall postfix
+  hosts: dev
+  become: true
+
+  tasks:
+    - name: remove postfix package
+      yum:
+        name: postfix
+        state: absent

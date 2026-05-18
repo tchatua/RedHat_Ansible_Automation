@@ -1,0 +1,14 @@
+---
+# #########################
+# lowest‑priority variables.
+# #########################
+
+apache_package: httpd
+apache_service: httpd
+apache_document_root: /var/www/html
+apache_index_template: index.html.j2
+apache_index_dest: "{{ apache_document_root }}/index.html"
+
+# Message displayed in the homepage
+apache_message: "Welcome to Apache on Amazon Linux - {{ ansible_facts['hostname'] }}"
+

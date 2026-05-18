@@ -1,0 +1,36 @@
+[webservers]
+webserver1
+webserver2
+[webservers:vars]
+A=100
+B=200
+http_port=8080
+
+
+[dev]
+ansibleclient01
+ansibleclient02
+
+[test]
+servertest1
+servertest2
+
+[prod]
+serverprod1
+serverprod2
+
+[db]
+dbserver1:3306  ansible_user=tchatua
+
+[serverip]
+192.168.10.[1:20]
+
+[servername]
+appserver[01:10].tchatua.com
+
+[web]
+webserver1
+webserver2
+webserver3    ansible_port=2222
+webserver4    ansible_user=admin
+web[01:05]

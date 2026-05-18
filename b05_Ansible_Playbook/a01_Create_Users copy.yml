@@ -1,0 +1,11 @@
+---
+- name: Ensure user exists  # Description of the play or tasks
+  hosts: dev                # target systems or groups from inventory
+  remote_user: ec2-user     # user 
+  become: yes               # Use sudo prifilege if needed
+
+  tasks:                    # List of automation steps
+    - name: create user account devops
+      ansible.builtin.user:
+        name: devops 
+        state: present

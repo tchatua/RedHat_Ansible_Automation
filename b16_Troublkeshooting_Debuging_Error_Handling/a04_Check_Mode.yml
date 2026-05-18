@@ -1,0 +1,13 @@
+---
+- name: Check Mode
+  hosts: dev
+  become: true
+
+  tasks:
+    - name: task 1 - always runs in check mode
+      ansible.builtin.shell: uname -a > /tmp/abc1
+      check_mode: yes #  forces dry‑run mode for this task only, even if the playbook is running normally.
+
+    - name: Task 2 - always runs even in check mode
+      ansible.builtin.shell: uname -a > /tmp/abc2
+      check_mode: no # forces real execution, even if the playbook is run with --check.

@@ -1,0 +1,18 @@
+---
+- name: Loop with a variable list
+  hosts: dev
+  become: true
+  remote_user: ec2-user
+
+  vars:
+    mail_services:
+      - postfix
+      - dovecot
+      - dovecot-pigeonhole
+
+  tasks:
+    - name: Install mail service
+      ansible.builtin.package:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ mail_services }}"

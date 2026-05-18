@@ -1,0 +1,17 @@
+---
+# reusable, role-based automation playbook that: 
+## Creates a devops user 
+## Sets timezone to Asia/K0lkata 
+## Enables and configures the firewall to allow only custom SSH port 2222 
+## Changes the default SSH port from 22 to 2222 using best practices 
+## Restarts the SSH service only when necessary 
+- name: Automate Ubuntu Server Hardening
+  hosts: dev
+  become: true    # privilege escalation
+  roles:
+    - d01_user_create
+    - d02_time_zone_set
+    - d03_firewall_config
+    - d04_ssh_config
+
+

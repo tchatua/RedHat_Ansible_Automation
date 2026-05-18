@@ -1,0 +1,6 @@
+---
+- name: Install Nginx using external Roles
+  hosts: dev
+  become: true
+  roles:
+    - geerlingguy.nginx

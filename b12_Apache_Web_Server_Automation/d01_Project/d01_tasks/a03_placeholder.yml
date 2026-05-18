@@ -1,0 +1,15 @@
+# - name: Create Placeholder File
+#   ansible.builtin.copy:
+#     content: "{{ ansible_facts['fqdn'] }} has been customized using Ansible.\n"
+#     dest: "{{ file }}"
+#     update_cache: true
+
+
+---
+- name: Create Placeholder File
+  ansible.builtin.copy:
+    content: "{{ ansible_facts['fqdn'] }} has been customized using Ansible.\n"
+    dest: "{{ file }}"
+    owner: root
+    group: root
+    mode: '0644'

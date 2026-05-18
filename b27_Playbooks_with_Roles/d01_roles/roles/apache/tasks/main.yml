@@ -1,0 +1,7 @@
+---
+# tasks file for d01_roles/apache
+- import_tasks: a01_install.yml
+- import_tasks: a02_configure.yml
+- import_tasks: a03_service.yml
+
+

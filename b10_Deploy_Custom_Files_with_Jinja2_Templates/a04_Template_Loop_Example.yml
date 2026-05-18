@@ -1,0 +1,12 @@
+---
+- name: Template Loop Example
+  hosts: dev
+  become: yes
+  remote_user: ec2-user
+  gather_facts: true
+
+  tasks:
+    - name: Template Loop Example
+      template:
+        src: a03_Using_ForLoops_for_Control_Structures.j2
+        dest: /opt/a02_output.txt

@@ -1,0 +1,14 @@
+---
+- name: Package installation with When Statement
+  hosts: dev
+  become: true
+
+  vars:
+    my_service: postfix
+
+  tasks:
+    - name: "{{ my_service }} package installation"
+      ansible.builtin.apt: 
+        name: "{{ my_service }}"
+        state: latest
+      when: my_service is defined

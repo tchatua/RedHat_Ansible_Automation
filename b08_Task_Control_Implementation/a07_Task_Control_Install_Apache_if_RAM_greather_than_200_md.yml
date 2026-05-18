@@ -1,0 +1,13 @@
+---
+- name: Install Apache on amazon Linux if RAM > 200
+  hosts: dev
+  become: true
+  remote_user: ec2-user
+
+  tasks:
+    - name: Install Apache on amazon Linux
+      ansible.builtin.package:
+        name: httpd
+        state: present
+        update_cache: yes
+      when: ansible_memtotal_mb > 200

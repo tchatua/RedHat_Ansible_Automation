@@ -1,0 +1,15 @@
+---
+- name: Basic Templates Example
+  hosts: dev
+  become: yes
+  remote_user: ec2-user
+  gather_facts: true
+  vars:
+    variable01: "Hello Pennington, I'm on my way"
+    variable02: "Playbook using template"
+
+  tasks:
+    - name: Basic Templates Example
+      template:
+        src: a01_Example.j2
+        dest: /opt/a01_output.txt

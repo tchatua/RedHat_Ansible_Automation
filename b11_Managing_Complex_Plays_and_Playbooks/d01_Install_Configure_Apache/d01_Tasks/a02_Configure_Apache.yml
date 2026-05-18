@@ -1,0 +1,9 @@
+# d01_Tasks/a02_Configure_Apache.yml
+## overwrite the default Apache welcome page
+
+- name: Create custom index.html
+  ansible.builtin.copy:
+    content: "<h1>Welcome To Apache On Amazon  -  tchattua@gmail"
+    dest: /var/www/html/index.html
+  notify: Restart Apache
+

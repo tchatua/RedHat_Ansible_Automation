@@ -1,0 +1,19 @@
+
+---
+- name: Ansible handlers
+  hosts: dev        # run on all servers in the dev group
+  become: true      # escalate to root
+  gather_facts: yes # collect system facts (OS, memory, mounts, etc.)
+
+  tasks:
+    - name: Restart a service
+      ansible.builtin.service:   
+        name:  notaservice
+        state: restart
+      ignore_errors: yes  
+
+    - name: copy a file   
+      ansible.builtin.copy:   
+        src: /tmp/script247D.sh
+        dest: /tmp
+

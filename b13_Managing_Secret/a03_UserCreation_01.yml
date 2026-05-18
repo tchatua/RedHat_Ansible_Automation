@@ -1,0 +1,12 @@
+---
+- name: User Account Creation
+  hosts: dev
+  become: yes
+  become_user: root
+  tasks:
+    - name: User Account Creation
+      ansible.builtin.user: 
+        name: ansadmin02
+        password: "$6$rounds=100000$5Cgg4Gl260IkLkCP$DdfnnNjR8Vr.J6ofwspAOAIAfq.MmbD8v2cQrMg/dlmsF105y/iDSiZvQPQj0.YfDxxe5IEsp.9PKnCIML5sr0" # Good practice # sudoi cat /etc/shadow
+        comment: "Ansible Test account" 
+        state: present

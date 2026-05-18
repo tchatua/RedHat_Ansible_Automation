@@ -1,0 +1,15 @@
+---
+- name: Deploying Files To Managed Hosts
+  hosts: dev        # run on all servers in the dev group
+  become: true      # escalate to root
+  gather_facts: yes # collect system facts (OS, memory, mounts, etc.)
+
+  tasks:
+    - name: stat output of /etc/passwd
+      ansible.builtin.stat:
+        path: /etc/passwd
+      register: results
+
+    - name: display stat result
+      ansible.builtin.debug:
+        var: results

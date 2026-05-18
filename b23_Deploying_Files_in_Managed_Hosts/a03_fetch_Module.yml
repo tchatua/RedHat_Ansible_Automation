@@ -1,0 +1,11 @@
+---
+- name: Deploying Files To Managed Hosts
+  hosts: dev        # run on all servers in the dev group
+  become: true      # escalate to root
+  gather_facts: yes # collect system facts (OS, memory, mounts, etc.)
+
+  tasks:
+    - name: Copy file from client
+      ansible.builtin.fetch:
+        src:  "/home/ubuntu/ansibel_file_client.txt"
+        dest: "/home/ec2-user/a16_Deploying_Files/ansibel_file_client.txt"

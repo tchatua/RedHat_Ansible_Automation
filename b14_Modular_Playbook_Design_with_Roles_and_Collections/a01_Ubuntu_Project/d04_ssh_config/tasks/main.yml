@@ -1,0 +1,17 @@
+---
+# Tasks file for roles/d04_ssh_config 
+## Tasks file for roles/d04_ssh_config
+## This task updates the SSH daemon configuration to use a custom port (2222).
+## It ensures idempotent modification of the Port directive and triggers handlers
+## to reload systemd and restart the SSH service when changes occur.
+- name: Change SSH Port to 2222
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?Port '
+    line: 'Port 2222'
+    state: present
+    backup: yes 
+  notify:
+    - Reload System
+    - Restart SSH
+ 

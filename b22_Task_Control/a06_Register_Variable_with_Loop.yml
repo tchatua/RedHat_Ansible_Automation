@@ -1,0 +1,24 @@
+---
+- name: Register variables with Loops
+  hosts: dev
+  become: true
+
+  # vars:
+  #   data:
+  #     - a05_01_file
+
+  tasks:
+    - name: Loping echo message
+      ansible.builtin.shell: "echo this is my item: {{ item }}"
+      loop: 
+        - alpha
+        - bravo
+        - delta
+        - echo
+        - foxtrot
+        - golf
+      register: echo_result
+
+    - name: Show echo_result variable
+      ansible.builtin.debug: var=echo_result
+      

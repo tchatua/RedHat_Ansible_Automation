@@ -1,0 +1,13 @@
+---
+- name: Fetch File From Remote Machine Using Fetch Module
+  hosts: ansibleclient01
+  become: yes
+  remote_user: ec2-user
+  gather_facts: true
+
+  tasks:
+    - name: Fetch sshd_confil from remote to local 
+      ansible.builtin.fetch:
+        src: /etc/ssh/ssh_config 
+        dest: /home/ec2-user/a05_Deploy_Files/
+        flat: yes

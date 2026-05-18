@@ -1,0 +1,13 @@
+---
+- name: Deploying Files To Managed Hosts
+  hosts: dev        # run on all servers in the dev group
+  become: true      # escalate to root
+  gather_facts: yes # collect system facts (OS, memory, mounts, etc.)
+
+  tasks:
+    - name: Add a line to a file
+      ansible.builtin.lineinfile:
+        path: /home/ubuntu/f01_New_File
+        line: "line 02  added to my file"
+        state: present
+

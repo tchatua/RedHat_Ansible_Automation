@@ -1,0 +1,14 @@
+---
+- name: Run Task when web_enables is true
+  hosts: dev
+  become: true
+  remote_user: ec2-user
+  vars:
+    web_enabled: true
+
+  tasks:
+    - name: Start Apache
+      ansible.builtin.service:
+        name: httpd
+        state: started
+      when: web_enabled

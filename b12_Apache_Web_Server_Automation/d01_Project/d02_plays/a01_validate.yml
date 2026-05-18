@@ -1,0 +1,31 @@
+# ---
+# # To verify if the Apache Web server is publicly accessible.
+# - name: Test web service
+#   hosts: dev
+#   become: false
+#   tasks:
+#     - name: Connect to internet webserver
+#       ansible.builtin.uri: 
+#       url: "{{ url  }}"
+#       status_code: 200
+
+
+---
+# Validate that the web server is responding
+- name: Check HTTP response
+  ansible.builtin.uri:
+    url: "{{ url }}"
+    return_content: true
+  register: web_response
+
+- name: Fail if HTTP status is not 200
+  ansible.builtin.fail:
+    msg: "Web server is NOT responding correctly!"
+  when: web_response.status != 200
+
+- name: Display response summary
+  ansible.builtin.debug:
+    msg: "Web server is up. Status: {{ web_response.status }}"
+
+
+

@@ -1,0 +1,16 @@
+---
+- name: run Task if RAM > 2GB and OS is Amazon
+  hosts: dev
+  become: true
+  remote_user: ec2-user
+  gather_facts: true
+
+  tasks:
+    - name: Install Nginx 
+      ansible.builtin.package:
+        name: nginx
+        state: present
+      # when: ansible_memtotal_mb > 2048 and ansible_distribution == "Amazon"
+      when:
+        - ansible_distribution == "Amazon"
+        - ansible_memtotal_mb | int > 2048

@@ -1,0 +1,33 @@
+
+---
+- name: change-when keyword
+  hosts: dev        # run on all servers in the dev group
+  become: true      # escalate to root
+  gather_facts: yes # collect system facts (OS, memory, mounts, etc.)
+
+  tasks:
+    - name: Start a service
+      ansible.builtin.service:   
+        name:  notaservice
+        state: started
+      ignore_errors: yes  
+
+    - name: copy a file script  
+      ansible.builtin.copy:   
+        src: /home/ec2-user/a15_Task_Control/a18_00_script.sh
+        dest: /tmp
+
+    - name: Run the script
+      ansible.builtin.shell:  sh /tmp/a18_00_script.sh
+      register: command_result 
+      changed_when: "'Success' in command_result.stdout"
+      notify:
+        - restart_apache2
+
+  handlers:
+    - name: restart_apache2
+      ansible.builtin.service:  
+        name: apache2
+        state: restarted
+
+

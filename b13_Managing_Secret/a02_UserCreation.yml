@@ -1,0 +1,12 @@
+---
+- name: User Account Creation
+  hosts: dev
+  become: yes
+  become_user: root
+  tasks:
+    - name: User Account Creation
+      ansible.builtin.user: 
+        name: ansadmin
+        password: Admin@_-2026 # Bad practice
+        comment: "Ansible Test account" 
+        state: present

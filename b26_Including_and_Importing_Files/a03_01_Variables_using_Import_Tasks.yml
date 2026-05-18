@@ -1,0 +1,10 @@
+---
+# newvarmain.yml
+- hosts: dev
+  become: true
+  # become_user: root
+  tasks:
+    - import_tasks: a03_02_varpkg.yml
+      vars:
+        package: vsftpd
+        service: service

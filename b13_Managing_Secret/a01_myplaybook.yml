@@ -1,0 +1,10 @@
+---
+- name: Pud
+  become: yes
+  remote_user: ec2-user
+  gather_facts: true
+  tasks:
+    - name: First task
+      # ansible.builtin.include_tasks: d01_tasks/a01_environment.yml
+      # vars:
+      #   package: apache2

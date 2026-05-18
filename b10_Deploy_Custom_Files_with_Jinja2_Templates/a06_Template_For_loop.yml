@@ -1,0 +1,14 @@
+---
+- name: Template Loop Example
+  hosts: dev
+  become: yes
+  remote_user: ec2-user
+  gather_facts: true
+  vars:
+    a06_list: ['Alpha', 'Bravo', 'Charlie', 'Delta', 'Echo', 'Foxtrot', 'Golf']
+
+  tasks:
+    - name: Template Loop Example
+      template:
+        src: a05_Template_Module_loop_with_List.j2
+        dest: /opt/a03_output.txt

@@ -1,0 +1,15 @@
+---
+- name: Insert config block using blockinline module
+  hosts: dev
+  become: yes
+  remote_user: ec2-user
+  gather_facts: true
+
+  tasks:
+    - name: Add advanced block in a config file
+      ansible.builtin.blockinfile:
+        path: /tmp/demo.txt 
+        block: |
+          [advanced]
+          debug=true
+          timeout=60

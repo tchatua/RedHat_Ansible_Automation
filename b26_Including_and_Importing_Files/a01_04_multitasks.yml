@@ -1,0 +1,35 @@
+---
+# multitasks.yml
+- hosts: dev
+  become: true
+
+  tasks:
+    - name: Mount the OS Media Drive
+      command: mount /dev/sr0 /mnt
+
+    - name: Copy the local repo file
+      copy:
+        src: /home/ec2-user/a19_Importing_and_IUncluding_Files/server.repo
+        dest: /etc/yum.repos.d
+
+    - name: Install VSFTPD Package
+      yum:
+        name: vsftpd
+        state: latest
+
+    - name: Install HTTPD Package
+      yum:
+        name: httpd
+        state: latest
+
+    - name: Start & Enable VSFTPD Service
+      service:
+        name: vsftpd
+        state: started
+        enabled: true
+
+    - name: Start & Enable HTTPD Service
+      service:
+        name: httpd
+        state: started
+        enabled: true

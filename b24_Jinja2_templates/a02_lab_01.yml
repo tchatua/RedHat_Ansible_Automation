@@ -1,0 +1,12 @@
+---
+- name: Jinja 2
+  hosts: dev
+  vars:
+    variable01: "Heloo...!!!"
+    variable02: "My lab playbook using template"
+
+  tasks:
+    - name: Basic Template lab
+      template: 
+        src: a01_Variables.j2
+        dest: /home/ec2-user/output/a03_output.txt

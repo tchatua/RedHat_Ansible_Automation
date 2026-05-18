@@ -1,0 +1,11 @@
+---
+- hosts: dev
+
+  tasks:
+    - name: Set a dynamic variable
+      set_fact:
+        message: "Hello from set_fact"
+
+    - name: Use the variable later in the play
+      debug:
+        msg: "{{ message }}"

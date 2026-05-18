@@ -1,0 +1,11 @@
+---
+# Test the connectivity of web server from your local server 
+- name: Test the connectivity of web server from your local server 
+  hosts: localhost
+  become: no
+  tasks:
+    - name: Test the connectivity of web server
+      uri:
+        url: "{{ url }}"
+        return_content: yes
+        status_code: 200

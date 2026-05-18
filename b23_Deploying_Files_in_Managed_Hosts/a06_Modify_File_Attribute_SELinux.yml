@@ -1,0 +1,12 @@
+---
+- name: Deploying Files To Managed Hosts
+  hosts: dev        # run on all servers in the dev group
+  become: true      # escalate to root
+  gather_facts: yes # collect system facts (OS, memory, mounts, etc.)
+
+  tasks:
+    - name: SELinux Context Change
+      ansible.builtin.file:
+        path: /home/ec2-user/f01_New_File
+        setype: samba_share_t
+

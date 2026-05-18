@@ -1,0 +1,11 @@
+---
+- name: Display Free Memory
+  hosts: dev
+  become: no 
+  tasks:
+    - name: Display Free Memory
+      debug:
+        msg: "Free memory for this system is {{ ansible_facts['memfree_mb']  }}"
+
+
+

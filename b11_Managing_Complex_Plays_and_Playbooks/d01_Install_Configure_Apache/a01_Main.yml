@@ -1,0 +1,30 @@
+---
+# using include_tasks for OS‑specific logic and import_tasks for static configuration. 
+# This playbook:
+## Include installation tasks only on Amazon Linux
+## Import Apache configuration tasks
+## Works on Amazon Linux 2 and 2023
+## Uses a condition to the import_tasks
+## Uses handler to restart Apache when config changes
+## 
+- name: Install and start Apache on Amazon Linux
+  hosts: ansibleclient01
+  become: yes
+  remote_user: ec2-user
+  gather_facts: true
+  tasks:
+    - name: Include installation taskss Only On Amazon linux 
+      ansible.builtin.include_tasks: d01_Tasks/a01_Install_Apache.yml
+      when: ansible_distribution == "Amazon"
+
+    - name: Import Apache Configuration tasks 
+      ansible.builtin.import_tasks: d01_Tasks/a02_Configure_Apache.yml
+      when: ansible_distribution == "Amazon"
+
+  handlers:
+    - name: Restart Apache
+      ansible.builtin.service:
+        name: httpd
+        state: restarted
+
+

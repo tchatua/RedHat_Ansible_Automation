@@ -1,0 +1,14 @@
+---
+# This playbook renders a Jinja2 template using Ansible facts
+# and writes the output to /opt/a06_output.txt on all hosts in the "dev" group.
+- name: Template Loop Example
+  hosts: dev
+  become: yes
+  remote_user: ec2-user
+  gather_facts: true      # Required because the template uses ansible_facts
+
+  tasks:
+    - name: Template Loop Example
+      template:
+        src: a11_Ansible_facts_in_Jinja2_templates.j2   # Jinja2 template file
+        dest: /opt/a06_output.txt                       # Output file on remote host

@@ -1,0 +1,25 @@
+---
+- name: Register with Loop - Create temporary files and register results
+  hosts: dev
+  become: true
+  remote_user: ec2-user
+  vars:
+    temp_files:
+      - /tmp/a01_tmp.txt
+      - /tmp/a02_tmp.txt
+      - /tmp/a03_tmp.txt
+
+  tasks:
+    - name: Create Empty temporary files
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: touch
+        mode: '0644'
+      loop: "{{ temp_files }}"
+      register: file_creation_result
+
+    - name: Show result on each file creation
+      debug:
+        msg: "File {{ item.item }} created"
+      loop: "{{ file_creation_result.results }}"
+

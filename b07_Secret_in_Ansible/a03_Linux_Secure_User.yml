@@ -1,0 +1,19 @@
+---
+# To generate a Linux‑compatible hashed password using Python
+## python3 -c "import crypt; print(crypt.crypt('MyPassword123', crypt.mksalt(crypt.METHOD_SHA512)))"
+- name: Simple debug playbook
+  hosts: dev
+  become: true
+
+  vars:
+    username: debugadmin
+    user_password: ""
+
+  tasks:
+    - name: Create user "{{ username }}"
+      ansible.builtin.user:
+        name: "{{ username }}"
+        state: present
+        password: "{{ user_password }}"
+
+

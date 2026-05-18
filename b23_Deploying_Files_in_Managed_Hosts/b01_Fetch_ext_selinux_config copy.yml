@@ -1,0 +1,13 @@
+
+---
+- name: Ansible Playbook
+  hosts: dev
+  become: true
+  gather_facts: yes
+
+  tasks:
+    - name: copy the config to /etc/selinux/config file from managed hosts 
+      ansible.builtin.copy:
+        src: secure_backups/ansibleclient01/etc/selinux/config     
+        dest: /etc/selinux/config
+

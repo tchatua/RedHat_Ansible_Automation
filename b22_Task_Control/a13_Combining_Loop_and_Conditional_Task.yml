@@ -1,0 +1,14 @@
+
+---
+- name: Install postfix if enough swpace on root FS
+  hosts: dev
+  become: true
+  gather_facts: yes
+
+  tasks:
+    - name: Install the postfix package if enough swpace on root FS
+      ansible.builtin.apt: 
+        name: postfix
+        state: latest
+      loop: "{{ ansible_mounts }}"
+      when: item.mount == "/" and item.size_available > 300000000

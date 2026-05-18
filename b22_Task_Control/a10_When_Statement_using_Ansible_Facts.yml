@@ -1,0 +1,15 @@
+---
+- name: Package installation with When Statement
+  hosts: dev
+  become: true
+
+  vars:
+    my_service: apache2
+
+  tasks:
+    - name: "{{ my_service }} package installation"
+      ansible.builtin.apt: 
+        name: "{{ my_service }}"
+        state: latest
+      when: ansible_distribution == "Ubuntu" and ansible_distribution_version is version('22.04', '==')
+      # when: ansible_distribution == "CentOS" or ansible_distribution_version is version('22.04', '==')

@@ -1,0 +1,13 @@
+# ####################################
+# Deploy homepage and notify handler.
+# ####################################
+
+---
+- name: Deploy custom Apache index page
+  ansible.builtin.template:
+    src: "{{ apache_index_template }}"
+    dest: "{{ apache_index_dest }}"
+    mode: '0644'
+  notify: restart apache
+
+

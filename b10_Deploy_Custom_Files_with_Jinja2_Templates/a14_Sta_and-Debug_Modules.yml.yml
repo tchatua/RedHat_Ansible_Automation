@@ -1,0 +1,26 @@
+---
+# This playbook renders a Jinja2 template using Ansible facts
+# and writes the output to /etc/motd/motd on all hosts in the "dev" group.
+- name: Display the file information module
+  hosts: dev
+  become: yes
+  remote_user: ec2-user
+  gather_facts: true      # Required because the template uses ansible_facts
+
+  tasks:
+    - name: Configure custom /etc/motd
+      template:
+        src: a13_Template_Memory_Processor_Count.j2   # Jinja2 template file
+        dest: /etc/motd   
+        mode: 0644
+        owner: root
+        group: root
+
+    - name: Check file stat
+      stat: 
+        path: /etc/motd 
+      register: motd_info
+
+    - name: Display file result
+      debug: 
+        var: motd_info

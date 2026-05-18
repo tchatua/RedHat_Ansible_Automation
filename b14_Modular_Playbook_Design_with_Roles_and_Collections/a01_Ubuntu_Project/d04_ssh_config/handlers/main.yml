@@ -1,0 +1,9 @@
+---
+# Handlers file for roles/d04_ssh_config 
+- name: Reload System
+  ansible.builtin.command: systemctl daemon-reexec
+ 
+- name: Restart SSH
+  ansible.builtin.service:
+    name: "{{ 'ssh' if ansible_facts['os_family'] == 'Debian' else 'sshd' }}"
+    state: restarted

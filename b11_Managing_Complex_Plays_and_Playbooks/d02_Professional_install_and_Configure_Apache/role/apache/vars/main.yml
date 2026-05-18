@@ -1,0 +1,13 @@
+---
+# ###########################################
+# OS‑specific values and supported platforms.
+# ###########################################
+
+# OS detection
+apache_supported_os:
+  - Amazon
+
+# Amazon Linux uses httpd
+apache_pkg_map:
+  Amazon: httpd
+

@@ -1,0 +1,71 @@
+---
+- name: Enterprise Apache Deployment
+  hosts: dev
+  become: true
+  gather_facts: true
+
+  vars:
+    packages:
+      - apache2
+      # - firewalld
+    urls:
+      - "http://10.0.11.248"
+      - "http://10.0.12.199"
+  
+  pre_tasks:
+    - name: Detect if port 80 is already in use
+      ansible.builtin.shell: "lsof -i :80 | awk 'NR>1 {print $1}'"
+      register: port80_process
+      changed_when: false
+    
+    - name: Fail if another service is using port 80
+      ansible.builtin.fail:
+        msg: "Port 80 is in use by {{ port80_process.stdout }}. Stop it before installing Apache."
+      when: port80_process.stdout != "" and port80_process.stdout != "apache2"
+
+  tasks:
+    - name: Install required packages
+      ansible.builtin.apt:
+        name: "{{ item }}"
+        state: latest
+        update_cache: true
+      loop: "{{ packages }}"  
+
+    - name: Deploy custom index.html
+      ansible.builtin.copy:
+        content: "Welcome to Linux Automation Lab"
+        dest: /var/www/html/index.html
+      notify: Restart Apache 
+      
+    - name: Detect firewall type
+      ansible.builtin.shell: |
+        if command -v ufw >/dev/null 2>&1; then echo "ufw";
+        elif command -v firewall-cmd >/dev/null 2>&1; then echo "firewalld";
+        else echo "none"; fi
+      register: firewall_type
+      changed_when: false  
+
+    - name: Allow Apache through UFW
+      community.general.ufw:
+        rule: allow
+        name: "Apache"
+      when: firewall_type.stdout == "ufw"  
+
+    - name: Ensure Apache service is running and enabled
+      ansible.builtin.service:
+        name: apache2
+        state: started
+        enabled: true
+
+    - name: Validate intranet web endpoints
+      ansible.builtin.uri:
+        url: "{{ item }}"
+        return_content: false
+        status_code: 200
+      loop: "{{ urls }}"  
+
+  handlers:
+    - name: Restart Apache
+      ansible.builtin.service:
+        name: apache2
+        state: restarted

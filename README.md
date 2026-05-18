@@ -1,13 +1,48 @@
 # RedHat_Ansible_Automation
-Red Hat Ansible Automation Training – RHEL 8/9 (RH294) 2025 - Enterprise Linux automation using Ansible, including playbooks, roles, variables, templates, inventories, and troubleshooting.
+Red Hat Ansible Automation Training – RHEL 8/9 (RH294) 2025 - Enterprise Linux automation using Ansible, including:
+- Playbooks, 
+- Roles, 
+- Variables, 
+- Templates, 
+- Inventories, 
+- and Troubleshooting.
 
 ## Set Up an EC2 Instance as an Ansible Control Node
 - Use Terraform Code
+- ~/OneDrive/Documents/2026/a09_Platform_Engineer/a04_Udemy/RedHat_Ansible_Automation/b01_TF_Platform_Code/r02_Ansible_Controller
 
+## Ansible Setup in AWS Environment####################################################
 ## Ansible Setup in AWS Environment
+## Ansible Setup in AWS Environment####################################################
 - On RHEL 9, ansible-core is available via AppStream, but you need the right repo enabled.
     - Make sure AppStream is enabled
         - I should see something like: **rhel-9-for-x86_64-appstream-rpms**
+
+```sh
+[ec2-user@ansiblecontroller ~]$ cat /etc/os*
+NAME="Red Hat Enterprise Linux"
+VERSION="9.7 (Plow)"
+ID="rhel"
+ID_LIKE="fedora"
+VERSION_ID="9.7"
+PLATFORM_ID="platform:el9"
+PRETTY_NAME="Red Hat Enterprise Linux 9.7 (Plow)"
+ANSI_COLOR="0;31"
+LOGO="fedora-logo-icon"
+CPE_NAME="cpe:/o:redhat:enterprise_linux:9::baseos"
+HOME_URL="https://www.redhat.com/"
+DOCUMENTATION_URL="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9"
+BUG_REPORT_URL="https://issues.redhat.com/"
+
+REDHAT_BUGZILLA_PRODUCT="Red Hat Enterprise Linux 9"
+REDHAT_BUGZILLA_PRODUCT_VERSION=9.7
+REDHAT_SUPPORT_PRODUCT="Red Hat Enterprise Linux"
+REDHAT_SUPPORT_PRODUCT_VERSION="9.7"
+
+````
+- To Lists all enabled repositories
+  - shows me which software repositories are currently enabled on my  system.
+    - “Where am I allowed to download and update packages from?”
 ```sh
 # Make sure AppStream is enabled
 >Tchatua$sudo dnf repolist
@@ -50,10 +85,13 @@ ansible [core 2.14.18]
 ## Set Up Two Client Machines as Managed Nodes
 - Use Terraform Code
 
-## Enable Password-Less SSH communication on the Ansible Client EC2 Instances
+## Enable Password-Less SSH communication on the Ansible Controller and Ansible Client EC2 Instances
 
 ```sh
 >Ansible_Controller$sudo su -
+
+[root@ansiblecontroller ~]# yum install vim -y
+
 [root@ansiblecontroller ~]# vi /etc/ssh/sshd_config
 
 # Enable PasswordAuthentication and the PubkeyAuthentication on the sshd_config file
@@ -66,31 +104,130 @@ PubkeyAuthentication yes
 -rw-------. 1 root root  26 Feb  7 15:19 50-cloud-init.conf
 -rw-------. 1 root root 719 Dec 18 07:07 50-redhat.conf
 
+[root@ansiblecontroller sshd_config.d]# vim 50-cloud-init.conf
 PasswordAuthentication yes
 
 # Restard the sshd daemon
 [root@ansiblecontroller sshd_config.d]# systemctl restart sshd
 ```
-
+## Add Same User to All Machines (Ansible User) Environment####################################################
 ## Add Same User to All Machines (Ansible User)
+## Add Same User to All Machines (Ansible User) Environment####################################################
+
 - On all EC2 Instances
 ```sh
 >Ansible_Controller$sudo useradd ansadmin
 >Ansible_Controller$sudo passwd ansadmin
+
+[root@ansiblecontroller sshd_config.d]# cat /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+bin:x:1:1:bin:/bin:/sbin/nologin
+daemon:x:2:2:daemon:/sbin:/sbin/nologin
+adm:x:3:4:adm:/var/adm:/sbin/nologin
+lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin
+sync:x:5:0:sync:/sbin:/bin/sync
+shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown
+halt:x:7:0:halt:/sbin:/sbin/halt
+mail:x:8:12:mail:/var/spool/mail:/sbin/nologin
+operator:x:11:0:operator:/root:/sbin/nologin
+games:x:12:100:games:/usr/games:/sbin/nologin
+ftp:x:14:50:FTP User:/var/ftp:/sbin/nologin
+nobody:x:65534:65534:Kernel Overflow User:/:/sbin/nologin
+systemd-coredump:x:999:999:systemd Core Dumper:/:/sbin/nologin
+dbus:x:81:81:System message bus:/:/sbin/nologin
+polkitd:x:998:998:User for polkitd:/:/sbin/nologin
+tss:x:59:59:Account used for TPM access:/:/usr/sbin/nologin
+sssd:x:997:997:User for sssd:/:/sbin/nologin
+sshd:x:74:74:Privilege-separated SSH:/usr/share/empty.sshd:/usr/sbin/nologin
+chrony:x:996:996:chrony system user:/var/lib/chrony:/sbin/nologin
+ec2-user:x:1000:1000:Cloud User:/home/ec2-user:/bin/bash
+ansadmin:x:1001:1001::/home/ansadmin:/bin/bash
+
+[ec2-user@ansiblecontroller ~]$ pwd
+/home/ec2-user
+[ec2-user@ansiblecontroller ~]$ vim terraform_key_pem.pem
+# Copy and paste the key content as required
+
+[ec2-user@ansiblecontroller ~]$ ls -al terraform_key_pem.pem
+-rw-r--r--. 1 ec2-user ec2-user 1679 Apr 12 23:48 terraform_key_pem.pem
+
+[ec2-user@ansiblecontroller ~]$ chmod 400 terraform_key_pem.pem
+
+[ec2-user@ansiblecontroller ~]$ ll
+-r--------. 1 ec2-user ec2-user 1679 Apr 12 23:48 terraform_key_pem.pem
 ```
 
 ## Create Host Group in Inventory File
 - Accessing ansible clients from ansible controller throught the ssh and password authentication
 
 ```sh
->Ansible_Controller$sudo vi /etc/hosts
+>Ansible_Controller$sudo vim /etc/hosts
 
 127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
 ::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
 18.226.93.138       ansiblecontroller
 3.135.213.47        ansibleclient01
 18.220.170.102      ansibleclient02
+# ----------------------------------------------------------------------------
+3.133.158.202           ansiblecontroller
+10.0.11.241             appserver01
+10.0.12.113             appserver02
 
+# Inventory file
+/home/ec2-user/a01_Ansible_Lab/terraform_key_pem.pem
+
+[ec2-user@ansiblecontroller a01_Ansible_Lab]$ cat a02_Inventory.ini
+[appservers]
+ansibleclient01 ansible_host=10.0.11.241 ansible_user=ec2-user ansible_ssh_private_key_file=/home/ec2-user/a01_Ansible_Lab/terraform_key_pem.pem 
+ansibleclient02 ansible_host=10.0.12.113 ansible_user=ec2-user ansible_ssh_private_key_file=/home/ec2-user/a01_Ansible_Lab/terraform_key_pem.pem 
+
+#client1 ansible_host=10.0.1.10 ansible_user=ec2-user ansible_ssh_private_key_file=~/terraform_key_pem.pem
+#client2 ansible_host=10.0.2.11 ansible_user=ec2-user ansible_ssh_private_key_file=~/terraform_key_pem.pem
+
+
+
+
+ansible all -m ping -i a02_Inventory.ini
+[WARNING]: Platform linux on host ansibleclient01 is using the discovered Python interpreter at
+/usr/bin/python3.9, but future installation of another Python interpreter could change the meaning of that
+path. See https://docs.ansible.com/ansible-core/2.14/reference_appendices/interpreter_discovery.html for more
+information.
+ansibleclient01 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3.9"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+[WARNING]: Platform linux on host ansibleclient02 is using the discovered Python interpreter at
+/usr/bin/python3.9, but future installation of another Python interpreter could change the meaning of that
+path. See https://docs.ansible.com/ansible-core/2.14/reference_appendices/interpreter_discovery.html for more
+information.
+ansibleclient02 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3.9"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+
+
+[clients]
+ansibleclient01 ansible_host=10.0.1.10 ansible_user=ec2-user ansible_python_interpreter=/usr/bin/python3
+ansibleclient02 ansible_host=10.0.2.11 ansible_user=ec2-user ansible_python_interpreter=/usr/bin/python3
+
+[ec2-user@ansiblecontroller a01_Ansible_Lab]$ ansible all -m ping -i a02_Inventory.ini
+ansibleclient02 | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+ansibleclient01 | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+
+
+[ec2-user@ansiblecontroller a01_Ansible_Lab]$ vim a02_Inventory.ini
 ansadmin@ansibleClient01:~$ id
 uid=1001(ansadmin) gid=1001(ansadmin) groups=1001(ansadmin)
 
@@ -225,7 +362,6 @@ and check to make sure that only the key(s) you wanted were added.
 ## Add Client Machines into Ansible Inventory Files 
 
 ```sh
-
 [ec2-user@ansiblecontroller ~]$ id
 uid=1000(ec2-user) gid=1000(ec2-user) groups=1000(ec2-user),4(adm),190(systemd-journal) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
 
@@ -234,6 +370,12 @@ uid=1000(ec2-user) gid=1000(ec2-user) groups=1000(ec2-user),4(adm),190(systemd-j
 [dev]
 ansibleclient01
 ansibleclient02
+
+[dev]
+
+ansibleclient01 ansible_host=10.0.11.248 ansible_user=ubuntu ansible_ssh_private_key_file=/home/ec2-user/terraform_key_pem.pem ansible_python_interpreter=/usr/bin/python3
+ansibleclient02 ansible_host=10.0.12.199 ansible_user=ubuntu ansible_ssh_private_key_file=/home/ec2-user/terraform_key_pem.pem ansible_python_interpreter=/usr/bin/python3
+
 
 [ec2-user@ansiblecontroller ~]$ su - ansadmin
 
@@ -369,6 +511,22 @@ dbserver1:3306  ansible_user=tchatua
 ## Using Host Ranges in Ansible Inventory Files
 
 ```sh
+[ec2-user@ansiblecontroller a01_Ansible_Lab]$ ansible --list-hosts all -i a02_Inventory.ini
+  hosts (2):
+    ansibleclient01
+    ansibleclient02
+
+[ec2-user@ansiblecontroller a01_Ansible_Lab]$ ansible --list-hosts -i a02_Inventory.ini all
+  hosts (2):
+    ansibleclient01
+    ansibleclient02
+[ec2-user@ansiblecontroller a01_Ansible_Lab]$ ansible --list-hosts -i a02_Inventory.ini appservers
+  hosts (2):
+    ansibleclient01
+    ansibleclient02
+
+
+
 [ansadmin@ansiblecontroller ~]$ sudo vi /etc/ansible/hosts
 
 [serverip]

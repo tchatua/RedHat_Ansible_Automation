@@ -1,0 +1,12 @@
+---
+- name: Deploying Files To Managed Hosts
+  hosts: dev        # run on all servers in the dev group
+  become: true      # escalate to root
+  gather_facts: yes # collect system facts (OS, memory, mounts, etc.)
+
+  tasks:
+    - name: Copy file
+      ansible.builtin.copy:
+        src:  /home/ec2-user/a16_Deploying_Files/f01_New_File
+        dest: /tmp/f01_New_File
+        force: no

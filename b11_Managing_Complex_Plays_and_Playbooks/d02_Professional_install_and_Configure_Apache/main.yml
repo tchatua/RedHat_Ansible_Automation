@@ -1,0 +1,22 @@
+# This is all you need now:
+# A fully modular, reusable, idempotent Apache role with:
+## ✔ OS detection
+## ✔ Clean separation of install vs config
+## ✔ Handlers for controlled restarts
+## ✔ Templates for dynamic content
+## ✔ Defaults + vars for tunable behavior
+## ✔ Production‑grade directory structure
+## ✔ Idempotent tasks (no unnecessary restarts)
+
+# professional, clean, production‑ready Apache installation role, rebuilt exactly the way a senior DevOps engineer would deliver it. 
+## No fluff, no shortcuts — just a tight, modular, reusable role you can drop into any project.
+---
+- name: Deploy Apache using role
+  hosts: dev
+  become: yes
+  remote_user: ec2-user
+  gather_facts: true
+
+  roles:
+    - apache
+

@@ -30,9 +30,11 @@ OpenJDK 64-Bit Server VM Corretto-17.0.18.9.1 (build 17.0.18+9-LTS, mixed mode, 
 
 
 ```
-
+> Just for fun (Ignore it)
 ![alt text](image.png)
 ![alt text](image-1.png)
+![alt text](image-2.png)
+![alt text](image-3.png)
 
 ## jenkins Installation
 
@@ -64,7 +66,7 @@ Created symlink /etc/systemd/system/multi-user.target.wants/jenkins.service → 
 
 ```
 
-- Stop all ec2
+## Stop all ec2 using AWS CLI
 
 ```sh
 aws ec2 describe-instances \
@@ -75,3 +77,31 @@ aws ec2 describe-instances \
 aws ec2 stop-instances \
     --instance-ids $(aws ec2 describe-instances --filters "Name=instance-state-name,Values=running" --query "Reservations[*].Instances[*].InstanceId" --output text)
 ```
+
+
+## Install Apache Maven & Git
+
+- Apache maven is a build tool for Java based applications
+- Git is the tool where we maintain our project code
+
+![alt text](image-4.png)
+
+```sh
+sudo du -
+wget https://dlcdn.apache.org/maven/maven-3/3.9.12/binaries/apache-maven-3.9.12-bin.zip
+sudo dnf install -y unzip
+unzip apache-maven-3.9.12-bin.zip
+mv apache-maven-3.9.12 apache-maven
+# Configure Environment Variables
+vi ~/.bashrc
+# Add this
+export MAVEN_HOME=/opt/maven
+export PATH=$MAVEN_HOME/bin:$PATH
+# Apply Changes
+source ~/.bashrc
+mvn -version
+```
+
+## Jenkins freestyle project
+
+- Go tu `Create a job` > `Freestyle project` > `ok` > `Source code management`: Git > ``

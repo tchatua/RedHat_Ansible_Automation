@@ -1,0 +1,23 @@
+---
+- name: Apache installation
+  hosts: dev
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Install the latest version of Apache
+      ansible.builtin.apt:
+        name: apache2
+        state: latest
+        update_cache: true
+
+    - name: Creation of index.html file
+      ansible.builtin.copy:
+        content: "Welcome to Linux Automation Lab"
+        dest: /var/www/html/index.html
+
+    - name: Star and enable service
+      ansible.builtin.service:
+        name: apache2
+        state: started
+        enabled: true

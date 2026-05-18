@@ -1,0 +1,13 @@
+---
+# Installation of httpd and after that start & enabled httpd service. 
+
+- name: Install the {{ package }} package
+  yum:
+    name: "{{ package }}"
+    state: latest
+
+- name: start and enable the {{ service }} service
+  service:
+    name: "{{ service }}"
+    enabled: true
+    state: started

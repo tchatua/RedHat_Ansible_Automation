@@ -1,0 +1,16 @@
+---
+- name: Check Disk Space And Show Result
+  hosts: dev
+  become: yes
+  remote_user: ec2-user     # user 
+
+  tasks:
+
+    - name: 01. Check Disk Space On Root Directory
+      shell: df -h /
+      register: disk_output
+
+    - name: 02. Show Disk Space Result
+      debug:
+        msg: "{{ disk_output.stdout }}"
+

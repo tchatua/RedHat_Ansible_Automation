@@ -1,0 +1,22 @@
+---
+- name: Run Task If OS is Amazon or ubuntu
+  hosts: dev
+  become: true
+  remote_user: ec2-user
+  gather_facts: true
+
+  tasks:
+    - name: Update apt cache
+      ansible.builtin.package:
+        update_cache: yes
+      when: ansible_distribution in ["Amazon", "Ubuntu"]   
+    
+    # - name: Update apt cache (Ubuntu only)
+    #   ansible.builtin.apt:
+    #     update_cache: yes
+    #   when: ansible_distribution == "Ubuntu"
+
+    # - name: Update yum/dnf cache (Amazon Linux only)
+    #   ansible.builtin.yum:
+    #     update_cache: yes
+    #   when: ansible_distribution == "Amazon"

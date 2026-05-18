@@ -1,0 +1,12 @@
+---
+- name: Template Loop Example
+  hosts: dev
+  become: yes
+  remote_user: ec2-user
+  gather_facts: true
+
+  tasks:
+    - name: Template Loop Example
+      template:
+        src: a09_Template_Module_Loop_with_List.j2
+        dest: /opt/a05_output.txt

@@ -1,5 +1,10 @@
 #!/bin/bash
 
+sudo dnf install java-17-amazon-corretto -y
+
+java --version
+
+
 sudo yum install -y wget
 
 sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/rpm-stable/jenkins.repo

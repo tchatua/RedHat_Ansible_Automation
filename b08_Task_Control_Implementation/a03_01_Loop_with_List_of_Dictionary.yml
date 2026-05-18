@@ -1,0 +1,33 @@
+---
+- name: Create multiple users using a loop over a list of dictionaries
+  hosts: dev
+  become: yes # To ensure user creation has root privileges
+  remote_user: ec2-user
+  gather_facts: false # Skip collecting all system facts. Don’t run the setup module.
+  
+  vars:
+    users:
+      - name: metchim
+        group: manager
+      - name: goumgue
+        group: admin
+      - name: chagom
+        group: dev
+      - name: jimbock
+        group: prod
+      - name: kengne
+        group: dr
+
+  tasks:
+    - name: Ensure group exists
+      ansible.builtin.group:
+        name: "{{ item.group }}"
+        state: present
+      loop: "{{ users }}"
+
+    - name: Create users and assign them to groups
+      ansible.builtin.user:
+        name: "{{ item.name }}"
+        groups: "{{ item.group }}"
+        state: present
+      loop: "{{ users }}"

@@ -1,0 +1,20 @@
+---
+# Install firewalld and then start & enabled it and also firewalld permits access to http, https services 
+- name: Install the firewalld
+  yum:
+    name: "{{ firewall_pkg }}"
+    state: latest
+
+- name: Start and enable the firewalld
+  service:
+    name: "{{ firewall_svc }}"
+    state: started
+    enabled: true
+
+- name: Open the ports for {{ rule }}
+  firewalld:
+    service: "{{ item }}"
+    immediate: true
+    permanent: true
+    state: enabled
+  loop: "{{ rule }}"  

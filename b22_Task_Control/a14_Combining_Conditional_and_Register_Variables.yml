@@ -1,0 +1,22 @@
+
+---
+- name: Lab Combining Conditionals and register Variables 
+  hosts: dev        # run on all servers in the dev group
+  become: true      # escalate to root
+  gather_facts: yes # collect system facts (OS, memory, mounts, etc.)
+
+  tasks:
+    - name: Get Postfix server status
+      ansible.builtin.command: /usr/bin/systemctl is-active postfix   # active → exit code 0 | inactive, failed, unknown → exit code 3 or other non‑zero
+      ignore_errors: true                                             # Prevents the playbook from stopping if postfix is NOT active.
+      register: result                                                # Stores the command output in a variable called result
+      # result.rc        # return code (0 = active)
+      # result.stdout    # text output ("active", "inactive", etc.)
+      # result.stderr    # error text if any
+
+
+    - name: Restart Apache2 based on Postfix status
+      ansible.builtin.service: 
+        name: apache2
+        state: started      # Starts (or ensures running) the Apache2 service. 
+      when: result.rc == 0  # ONLY IF postfix is active

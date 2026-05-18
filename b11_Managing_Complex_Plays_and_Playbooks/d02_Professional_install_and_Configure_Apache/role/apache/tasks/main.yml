@@ -1,0 +1,11 @@
+# ##########################
+# Entry point for the role.
+# ##########################
+
+---
+- name: Install Apache
+  ansible.builtin.include_tasks: install.yml
+
+- name: Configure Apache
+  ansible.builtin.include_tasks: configure.yml
+

@@ -1,0 +1,10 @@
+---
+#main.yml
+- name: Install vsftpd
+  import_playbook: a01_02_pkg.yml
+
+- name: Uninstall postfix
+  import_playbook: a01_03_pkgrem.yml
+
+- name: Multiple Package Installation
+  import_playbook: a01_04_multitasks.yml

@@ -1,0 +1,14 @@
+---
+- name: User Account Creation
+  hosts: dev
+  become: yes
+  become_user: root
+  vars_files:
+    - a04_Secret.yml
+  tasks:
+    - name: User Account Creation
+      ansible.builtin.user: 
+        name: "{{ username }}"
+        password: "{{ hwpass }}"
+        comment: "Ansible Test account" 
+        state: present

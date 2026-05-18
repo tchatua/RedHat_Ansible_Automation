@@ -1,0 +1,19 @@
+---
+# pkg.yml
+- name: Install ans restart vsftpd
+  hosts: dev
+  become: true
+  # become_user: root
+
+  tasks:
+     - name: Update vsftpd package
+       yum:
+         name: vsftpd
+         state: present
+       notify: restart vsftpd
+
+  handlers:
+     - name: restart vsftpd
+       service:
+         name: vsftpd
+         state: restarted

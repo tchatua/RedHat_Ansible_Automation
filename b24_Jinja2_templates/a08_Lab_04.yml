@@ -1,0 +1,9 @@
+---
+- name: For loop 
+  hosts: dev
+
+  tasks:
+    - name: Template Ansible Facts
+      template: 
+        src: a07_Ansible_Facts_Liste_Address.j2
+        dest: /home/ec2-user/output/a07_output.txt

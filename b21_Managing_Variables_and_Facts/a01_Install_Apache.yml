@@ -1,0 +1,48 @@
+---
+- name: Install and configure Apache web server
+  hosts: dev
+  become: true
+  gather_facts: true
+
+  vars:
+    packages: 
+      - apache2
+      - git
+    apache_service: apache2
+    firewall_service: "Apache"
+    # python_package: 
+    ufw_rule: allow  
+    urls:
+      - "http://10.0.11.148"
+      - "http://10.0.12.221"
+
+  tasks:
+    - name: Install required packages
+      ansible.builtin.apt:
+        name: "{{ item }}"
+        state: latest
+        update_cache: true
+      loop: "{{ packages }}"
+
+    - name: Deploy custom index.html
+      ansible.builtin.copy:
+        content: "Welcome to Linux Automation Lab"
+        dest: /var/www/html/index.html
+
+    - name: Allow Apache through UFW
+      community.general.ufw:
+        rule: "{{ ufw_rule }}"
+        name: "{{ firewall_service }}"
+
+    - name: Ensure Apache service is running and enabled
+      ansible.builtin.service:
+        name: "{{ apache_service }}"
+        state: started
+        enabled: true
+
+    - name: Validate intranet web endpoints
+      ansible.builtin.uri:
+        url: "{{ item }}"
+        return_content: yes
+        status_code: 200
+      loop: "{{ urls }}"

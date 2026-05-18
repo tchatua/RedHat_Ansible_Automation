@@ -1,0 +1,21 @@
+---
+- name: Ensure UFW is installed
+  ansible.builtin.apt:
+    name: ufw
+    state: present
+    update_cache: true
+
+- name: Allow required firewall rules
+  # ansible.builtin.shell: |
+  #   ufw allow {{ item }}
+  community.general.ufw: 
+    rule: allow
+    name: "{{ item }}"
+  loop: "{{ rule }}"
+
+- name: Enable UFW
+  # ansible.builtin.shell: |
+  #   ufw --force enable
+  community.general.ufw: 
+    state: enabled
+    policy: allow

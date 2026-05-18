@@ -1,0 +1,14 @@
+---
+- name: with file
+  hosts: dev
+  become: true
+
+  vars:
+    data:
+      - a05_01_file
+
+  tasks:
+    - name: with file
+      ansible.builtin.debug:
+        msg: "{{ item }}"
+      with_file: "{{ data }}"

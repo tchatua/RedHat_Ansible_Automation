@@ -1,0 +1,35 @@
+---
+- name: Install deploy start and enable HTTPD Webserver
+  hosts: dev
+  become: true 
+  tasks:
+    - name: ALPHA - HTTPD Installation
+      yum:
+        name: httpd
+        state: latest
+      register: output_httpd_installation
+
+    - name: Diplay the output of ALPHA
+      debug: 
+        var: output_httpd_installation
+
+    - name: BRAVO - Customize the index html file
+      copy:
+        content: "Welcome to Tchatua's Automation server\n"
+        dest: /var/www/html/index.html
+      register: output_index_html_copy
+
+    - name: Diplay the output of BRAVO
+      debug: 
+        var: output_index_html_copy
+
+    - name: CHARLI - Start and enable HTTPD
+      service:
+        name: httpd
+        state: started
+        enabled: true
+      register: output_start_enabled
+
+    - name: Diplay the output of CHARLI
+      debug: 
+        var: output_start_enabled

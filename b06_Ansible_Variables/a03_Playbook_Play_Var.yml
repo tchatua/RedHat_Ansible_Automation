@@ -1,0 +1,12 @@
+---
+- hosts: dev
+  vars:
+    message: "Hello from Play-Level Vars"
+
+  tasks:
+    - name: Task 01 - Use the variable
+      debug:
+        msg: "{{ message }}"
+    - name: Task 02 - Use the same variable again
+      debug:
+        msg: "{{ message }}"

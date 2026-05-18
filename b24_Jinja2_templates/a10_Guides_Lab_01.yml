@@ -1,0 +1,15 @@
+---
+- name: Ansible fatcs
+  hosts: dev
+  become: true
+  vars:
+    admin_owner: "tchattua@gmail.com"
+
+  tasks:
+    - name: Template Ansible Facts
+      template: 
+        src: a09_working_Variables.j2
+        dest: /etc/motd
+        owner: root
+        group: root
+        mode: 0644

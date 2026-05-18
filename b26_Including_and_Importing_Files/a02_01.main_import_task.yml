@@ -1,0 +1,9 @@
+---
+# newmain.yml
+- hosts: dev
+  become: true
+  # become_user: root
+  
+  tasks:
+    - import_tasks: a02_02_pkgtask.yml
+    # - import_tasks: a02_03_pkgrem.yml

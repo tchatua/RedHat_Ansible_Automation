@@ -1,0 +1,19 @@
+---
+- name: Delete File If It Exists
+  hosts: dev
+  become: true
+  remote_user: ec2-user
+  gather_facts: true
+
+  tasks:
+    - name: Check if file exists
+      ansible.builtin.stat:
+        path: /tmp/test.txt
+      register: file_stat  
+    
+    - name: Delete file Only If It Exists
+      ansible.builtin.file:
+        path: /tmp/test.txt
+        state: absent
+      when:  file_stat.stat.exists
+    

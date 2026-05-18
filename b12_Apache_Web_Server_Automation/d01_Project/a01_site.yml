@@ -1,0 +1,41 @@
+---
+- name: Configure web server
+  hosts: dev
+  become: yes
+  remote_user: ubuntu
+  gather_facts: true
+  tasks:
+    # Task 1
+    - name: Include the environment task file and set the variables
+      ansible.builtin.include_tasks: d01_tasks/a01_environment.yml
+      vars: 
+        # package: apache2
+        # service: apache2
+        package: "{{ 'apache2' if ansible_facts['os_family'] == 'Debian' else 'httpd' }}"
+        service: "{{ 'apache2' if ansible_facts['os_family'] == 'Debian' else 'httpd' }}"
+    # Task 2
+    - name: Import the firewall task file and set the variables
+      ansible.builtin.import_tasks: d01_tasks/a02_firewall.yml
+      vars: 
+        rule:
+          - "Apache"
+          - "OpenSSH"
+    # Task 3
+    - name: Import the placeholder task file and set the variables
+      ansible.builtin.import_tasks: d01_tasks/a03_placeholder.yml
+      vars: 
+        file: /var/www/html/index.html
+
+# This is a second play to test the web server
+- name: Test the web server
+  hosts: dev
+  gather_facts: false
+  become: false
+
+  vars:
+    url: "http://192.168.10.10"
+
+  tasks:
+    - name: Validate web server
+      ansible.builtin.import_tasks: d02_plays/a01_validate.yml
+

@@ -1,0 +1,21 @@
+---
+- name: Create a remote directory
+  hosts: dev
+  become: true
+  gather_facts: true
+
+  vars:
+    remote_dir: /etc/ansible/facts.d
+    facts_file: custom.fact
+  
+  tasks:
+    - name: Create a remote directory
+      ansible.builtin.file:
+        state: directory
+        recurse: yes
+        path: "{{ remote_dir }}"
+
+    - name: Copy a file
+      ansible.builtin.copy:
+        src: "{{ facts_file }}"
+        dest: "{{ remote_dir }}"

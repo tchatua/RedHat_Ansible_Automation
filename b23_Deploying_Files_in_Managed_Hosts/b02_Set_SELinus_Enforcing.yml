@@ -1,0 +1,12 @@
+
+---
+- name: Ansible Playbook
+  hosts: dev
+  become: true
+  gather_facts: yes
+
+  tasks:
+    - name: Set SELinux to enforcing mode
+      ansible.posix.selinux:
+        policy: targeted
+        state: enforcing    

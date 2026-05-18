@@ -1,0 +1,6 @@
+---
+# pkgtask.yml
+- name: Update vsftpd package
+  yum:
+    name: vsftpd
+    state: present

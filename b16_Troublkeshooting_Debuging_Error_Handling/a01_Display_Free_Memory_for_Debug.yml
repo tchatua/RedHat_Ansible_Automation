@@ -1,0 +1,13 @@
+---
+# When Ansible gathers facts, it creates variables like:
+## ansible_memtotal_mb
+## ansible_memfree_mb
+## ansible_distribution
+## ansible_default_ipv4.address
+- name: Display free Memory
+  hosts: dev
+  become: false
+  tasks:
+    - name: Display free Memory
+      debug:
+        msg: "Free memory for this system is {{ ansible_facts['memfree_mb'] }}"

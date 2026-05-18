@@ -1,0 +1,12 @@
+---
+- hosts: dev
+  remote_user: ec2-user     # user 
+  vars:
+    app_name: gen_api
+    app_port: 8080
+
+  tasks:
+    - name: Show Override Value
+      debug:
+        msg: "App: {{ app_name }}, Port: {{ app_port }}"
+

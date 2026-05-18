@@ -1,0 +1,6 @@
+---
+# pkgrem.yml
+- name: remove vsftpd package
+  yum:
+    name: vsftpd
+    state: absent

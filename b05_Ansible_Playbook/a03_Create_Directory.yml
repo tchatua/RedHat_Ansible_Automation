@@ -1,0 +1,11 @@
+---
+- name: Directory Creation
+  hosts: dev
+  become: yes
+  remote_user: ec2-user     # user 
+  tasks:
+    - name: Create a directory /opt/scripts if it does not exist
+      ansible.builtin.file:
+        path: /opt/scripts
+        state: directory
+        mode: '0755'

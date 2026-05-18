@@ -1,0 +1,11 @@
+---
+# varpkg.yml
+- name: Install the {{ package }} package
+  yum:
+    name: "{{ package }}"
+    state: present
+- name: start the {{ package }} service
+  service:
+    name: "{{ package }}"
+    enabled: true
+    state: started

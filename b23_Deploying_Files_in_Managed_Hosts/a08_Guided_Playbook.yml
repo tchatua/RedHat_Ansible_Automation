@@ -1,0 +1,69 @@
+
+---
+# 1. Fetch the /var/log/secure log file from managed hosts to a centralized location on Ansible Server. 
+# 2. Copy the file and set the attributes. 
+# 3. Check the status of the file. 
+# 4. Using the file module to ensure the default SELinux file context for user, role, type and level fields on the file. 
+# 5. Add a text line to an existing file. 
+# 6. Add block of text to a file and read the file. 
+# 7. Using the file module to ensure the default SELinux file context for user, role, type and level fields on the file 
+# 8. Add a text line to an existing file. 
+# 9. Add block of text to a file and read the file.
+
+- name: Guided Ansible Playbook
+  hosts: dev
+  become: true
+  gather_facts: yes
+
+  tasks:
+    - name: Fetch the /var/log/secure log file from managed hosts to a centralized location on Ansible Server
+      ansible.builtin.fetch:
+        src: /var/log/cloud-init.log    # /var/log/auth.log 
+        dest: secure_backups
+
+    - name: Copy the file and set the attributes.
+      ansible.builtin.copy:
+        # src: /home/ec2-user/a16_Deploying_Files/f02.sh
+        src: f02.sh
+        dest: /home/ec2-user
+        owner: ec2-user
+        group: '0600'
+        setype: samba_share_t
+
+    - name: Check the status of the file.
+      ansible.builtin.command: ls -ltrZ /home/ec2-user/f02.sh
+      register: result
+    - ansible.builtin.debug: # To see the output
+        msg="{{ result.stdout }}"
+
+    - name: Ensure the default SELinux file context for user, role, type and level fields on the file
+      # Reset the SELinux context of this file back to the default policy-defined context
+      ansible.builtin.file:
+        path: /home/ec2-user/f02.sh
+        seuser: _default
+        serole: _default
+        setype: _default
+        selevel: _default
+
+    - name: Check the status of the file.
+      ansible.builtin.command: ls -ltrZ /home/ec2-user/f02.sh
+      register: result_output
+    - ansible.builtin.debug: # To see the output
+        msg="{{ result_output.stdout }}"
+
+    - name: Add a line to a file
+      ansible.builtin.lineinfile:
+        path: /home/ec2-user/f02.sh
+        line: "line added to my file by tchattua@gmail.com"
+        state: present
+
+    - name: Add block of text to a file and read the file.
+      ansible.builtin.blockinfile:
+        path: /home/ec2-user/f02.sh
+        block: | 
+          Tchatua:$> ansible ansibleclient01 -m setup -i a00_Inventory.ini
+          Tchatua:$> ansible ansibleclient01 -m setup -i a00_Inventory.ini | less
+          Tchatua:$> ansible ansibleclient01 -m setup -a "filter=*ipv4*" -i a00_Inventory.ini
+          Tchatua:$> ansible ansibleclient01 -m setup -a "filter=hostname" -i a00_Inventory.ini
+        state: present
+

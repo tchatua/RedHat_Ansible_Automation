@@ -1,0 +1,9 @@
+---
+- name: For loop
+  hosts: dev
+
+  tasks:
+    - name: Template for loop example.
+      template: 
+        src: a03_for_loop_template.j2
+        dest: /home/ec2-user/output/a05_output.txt

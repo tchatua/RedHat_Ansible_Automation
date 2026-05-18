@@ -1,0 +1,5 @@
+---
+# Tasks file for roles/d02_time_zone_set 
+- name: Set Time Zone To Asia/Kolkata
+  ansible.builtin.timezone:
+    name: Asia/Kolkata    # configures the timezone

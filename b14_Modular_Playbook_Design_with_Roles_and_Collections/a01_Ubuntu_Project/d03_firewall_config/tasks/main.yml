@@ -1,0 +1,18 @@
+---
+# Tasks file for roles/d01_user_create 
+- name: Ensure UFW is installed
+  ansible.builtin.apt:
+    name: ufw
+    state: present
+    update_cache: true
+
+- name: Allow SSH on port 2222
+  community.general.ufw: 
+    rule: allow
+    port: 2222
+    proto: tcp
+
+- name: Enable UFW
+  community.general.ufw: 
+    policy: allow
+    state: enabled

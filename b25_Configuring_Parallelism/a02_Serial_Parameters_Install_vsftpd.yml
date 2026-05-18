@@ -1,0 +1,18 @@
+---
+- name: Update vsftpd package
+  hosts: dev
+  become: true
+  serial: 1
+  tasks:
+    - name: Update vsftpd package
+      yum:
+        name: vsftpd
+        state: present
+      notify: restart vsftpd
+
+  handlers:
+    - name: restart vsftpd 
+      service:
+        name: vsftpd
+        state: restarted    
+

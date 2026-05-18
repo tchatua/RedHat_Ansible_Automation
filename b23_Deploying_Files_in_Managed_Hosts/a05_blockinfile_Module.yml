@@ -1,0 +1,16 @@
+---
+- name: Deploying Files To Managed Hosts
+  hosts: dev        # run on all servers in the dev group
+  become: true      # escalate to root
+  gather_facts: yes # collect system facts (OS, memory, mounts, etc.)
+
+  tasks:
+    - name: Add multiple line to a f01_New_File file
+      ansible.builtin.blockinfile:
+        path: /home/ubuntu/f01_New_File
+        block: | 
+          ansible ansibleclient01 -m setup -i a00_Inventory.ini
+          ansible ansibleclient01 -m setup -i a00_Inventory.ini | less
+          ansible ansibleclient01 -m setup -a "filter=*ipv4*" -i a00_Inventory.ini
+          ansible ansibleclient01 -m setup -a "filter=hostname" -i a00_Inventory.ini
+        state: present

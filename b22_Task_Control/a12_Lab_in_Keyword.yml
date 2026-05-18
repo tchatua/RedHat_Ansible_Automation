@@ -1,0 +1,19 @@
+---
+- name: Lab in keyword
+  hosts: dev
+  become: true
+  gather_facts: yes
+
+  vars:
+    distributions: 
+      - RedHat
+      - CentOS
+      - Fedora
+      - Ubuntu
+
+  tasks:
+    - name: Install the postfix package when supported
+      ansible.builtin.apt: 
+        name: postfix
+        state: present
+      when: ansible_distribution in distributions

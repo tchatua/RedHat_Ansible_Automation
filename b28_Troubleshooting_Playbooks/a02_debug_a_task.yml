@@ -1,0 +1,14 @@
+---
+- name: Display Free Memory
+  hosts: dev
+  become: true 
+  tasks:
+    - name: HTTPD Installation
+      yum:
+        name: httpd
+        state: present
+      register: results_output
+ 
+    - name: Diplay the output of results_output
+      debug: 
+        var: results_output

@@ -1,0 +1,22 @@
+---
+# This task ensures a file exists on each target host and applies the correct
+# ownership and permissions. The `state: touch` directive creates the file if it
+# does not already exist, without modifying its contents when it does. Ownership
+# is assigned to the `ubuntu` user and group, and permissions are set to `0640`
+# to allow read/write for the owner and read-only for the group, while denying
+# access to others. This pattern is commonly used for controlled configuration
+# files or secure placeholders.
+
+- name: Deploying Files To Managed Hosts
+  hosts: dev        # run on all servers in the dev group
+  become: true      # escalate to root
+  gather_facts: yes # collect system facts (OS, memory, mounts, etc.)
+
+  tasks:
+    - name: Create files and set permissions
+      ansible.builtin.file:
+        path:  /home/ubuntu/f01_New_File
+        owner: ubuntu
+        group: ubuntu
+        mode: 0640
+        state: touch

@@ -1,0 +1,15 @@
+---
+- name: Create directory using file module
+  hosts: dev
+  become: yes
+  remote_user: ec2-user
+  gather_facts: true
+
+  tasks:
+    - name: Ensure /opt/demo/logs directory exists
+      ansible.builtin.file:
+        path: /opt/demo/logs
+        state: directory
+        mode: '0755'
+        owner: root
+        group: root

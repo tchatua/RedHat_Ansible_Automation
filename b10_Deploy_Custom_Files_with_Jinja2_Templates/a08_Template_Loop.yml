@@ -1,0 +1,22 @@
+---
+- name: Template Loop Example
+  hosts: dev
+  become: yes
+  remote_user: ec2-user
+  gather_facts: true
+  vars:
+    vlan: 
+      - id: 10
+        name: LB
+      - id: 20
+        name: WB_01
+      - id: 30
+        name: WB_02
+      - id: 40
+        name: DB
+
+  tasks:
+    - name: Template Loop Example
+      template:
+        src: a07_Template_Module_Loop_with_List.j2
+        dest: /opt/a04_output.txt

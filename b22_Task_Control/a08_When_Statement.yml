@@ -1,0 +1,15 @@
+---
+- name: When Statement
+  hosts: dev
+  become: true
+
+  vars:
+    # my_task: false
+    my_task: true
+
+  tasks:
+    - name: Postfix package installation
+      ansible.builtin.apt: 
+        name: postfix
+        state: latest
+      when: my_task

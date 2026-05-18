@@ -1,0 +1,12 @@
+---
+- name: Insert line using lineinfile module
+  hosts: dev
+  become: yes
+  remote_user: ec2-user
+  gather_facts: true
+
+  tasks:
+    - name: Ensure a setting line exist in config file
+      ansible.builtin.lineinfile:
+        path: /tmp/demo.txt 
+        line: 'enable_feature=true'

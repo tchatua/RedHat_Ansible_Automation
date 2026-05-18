@@ -1,0 +1,8 @@
+{{ # Dynamic homepage using system facts. # }}
+
+<h1>{{ apache_message }}</h1>
+
+<p><strong>Server FQDN:</strong> {{ ansible_facts['fqdn'] }}</p>
+<p><strong>IP Address:</strong> {{ ansible_facts['default_ipv4']['address'] }}</p>
+<p><strong>CPU Count:</strong> {{ ansible_facts['processor_vcpus'] }}</p>
+<p><strong>Total Memory:</strong> {{ ansible_facts['memtotal_mb'] }} MB</p>

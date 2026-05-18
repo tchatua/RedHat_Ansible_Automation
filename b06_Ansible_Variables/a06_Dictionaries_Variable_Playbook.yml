@@ -1,0 +1,14 @@
+---
+- hosts: dev
+  remote_user: ec2-user     # user 
+  vars:
+    user_info:
+      name: Tchatua
+      uid: 1025
+      shell: /bin/bash
+
+  tasks:
+    - name: Show User informations
+      debug:
+        msg: "Name: {{ user_info.name }}, UID: {{ user_info.uid }}, Shell: {{ user_info.shell }}"
+

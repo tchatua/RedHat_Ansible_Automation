@@ -1,0 +1,12 @@
+---
+- name: User Creation
+  hosts: dev
+  become: true
+
+  tasks:
+    - name: Create a simple user account
+      ansible.builtin.user:
+        name: grace
+        uid: 4041
+        state: present
+      

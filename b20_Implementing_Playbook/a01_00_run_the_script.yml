@@ -1,0 +1,12 @@
+---
+- name: Run The Script
+  hosts: dev
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: RRun Script on Ubuntu 22.04
+      ansible.builtin.script: /home/ec2-user/a13_Managing_Playbooks/a01_02_script.sh
+      when: 
+        - ansible_distribution == "Ubuntu" 
+        - ansible_distribution_major_version=="22"

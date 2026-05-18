@@ -1,0 +1,11 @@
+---
+- name: For loop with a list
+  hosts: dev
+  vars: 
+    a06_list_01: ['Alpha', 'Bravo', 'Charlie', 'Echo', 'Golf', 'Foxtrot' ]
+
+  tasks:
+    - name: Template for loop example with a list.
+      template: 
+        src: a05_loop_with_list_template.j2
+        dest: /home/ec2-user/output/a06_output.txt

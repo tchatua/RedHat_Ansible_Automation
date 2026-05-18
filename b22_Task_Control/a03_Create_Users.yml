@@ -1,0 +1,26 @@
+---
+- name: Create Multiple Users
+  hosts: dev
+  become: true
+
+  vars:
+    user_list:
+      - { name: "editflore",      groups: "nj" }
+      - { name: "neophilesevan",  groups: "pa" }
+      - { name: "leamurielle",    groups: "ny" }
+      - { name: "khloegabrielle", groups: "de" }
+      - { name: "gracecyrielle",  groups: "dc" }
+
+  tasks:
+    - name: Ensure groups exist
+      ansible.builtin.group:
+        name: "{{ item.groups }}"
+        state: present
+      loop: "{{ user_list }}"
+      
+    - name: Users exist
+      ansible.builtin.user:
+        name: "{{ item.name }}"
+        groups: "{{ item.groups }}"
+      loop: "{{ user_list }}"
+

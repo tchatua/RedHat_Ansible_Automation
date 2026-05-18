@@ -1,0 +1,4 @@
+---
+  - hosts: dev
+    tasks:
+    - name: my new encrypted file

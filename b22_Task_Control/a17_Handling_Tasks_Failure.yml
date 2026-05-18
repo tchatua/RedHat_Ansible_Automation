@@ -1,0 +1,12 @@
+
+---
+- name: Handling tasks Failure
+  hosts: dev        # run on all servers in the dev group
+  become: true      # escalate to root
+  gather_facts: yes # collect system facts (OS, memory, mounts, etc.)
+
+  tasks:
+    - name: Run user creation script
+      ansible.builtin.shell:  /usr/local/bin/create_user.sh
+      register: command_output 
+      failed_when: "'Password missing' in command_output.stdout"

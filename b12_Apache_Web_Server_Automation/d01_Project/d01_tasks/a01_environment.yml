@@ -1,0 +1,20 @@
+# Install and configure the Apache web server
+---
+# task 1
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: yes
+  when: ansible_facts['os_family'] == 'Debian'  
+
+# task 2
+- name: Install the {{ package }} package
+  ansible.builtin.apt:
+    name: "{{ package }}"
+    state: present
+
+# task 3
+- name: Start and enable the web service
+  ansible.builtin.service:
+    name: "{{ service }}"
+    state: started
+    enabled: true

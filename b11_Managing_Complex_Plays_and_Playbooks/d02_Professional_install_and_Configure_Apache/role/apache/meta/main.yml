@@ -1,0 +1,13 @@
+# ##############
+# Role metadata.
+# ##############
+
+---
+galaxy_info:
+  author: tchattua@gmail.com
+  description: Install and configure Apache on Amazon Linux
+  platforms:
+    - name: Amazon
+      versions:
+        - all
+

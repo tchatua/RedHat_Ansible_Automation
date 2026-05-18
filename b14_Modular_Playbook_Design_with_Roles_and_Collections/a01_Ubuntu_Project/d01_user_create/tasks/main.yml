@@ -1,0 +1,9 @@
+---
+# Tasks file for roles/d01_user_create 
+- name: User Account Creation
+  ansible.builtin.user:
+    # name: "{{ username }}"
+    name: devops
+    shell: /bin/bash
+    create_home: true         # create the home directory
+    state: present

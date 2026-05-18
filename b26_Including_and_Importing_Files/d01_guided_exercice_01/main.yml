@@ -1,0 +1,32 @@
+---
+# 
+- name: Main Playbook
+  hosts: dev
+  become: true
+  tasks:
+    - name: Include Installation-start-enabled httpd task file
+      include_tasks: tasks/a01_httpd.yml
+      vars: 
+        package: httpd
+        service: httpd
+      when: ansible_facts['os_family'] == 'RedHat'  
+
+    - name: Import Installation-start-enabled firewalld task file
+      import_tasks: tasks/a02_firewalld.yml
+      vars: 
+        firewall_pkg: firewalld
+        firewall_svc: firewalld
+        rule:
+          - http
+          - https
+
+    - name: Import index.html file file
+      import_tasks: tasks/a03_index_html.yml
+      vars: 
+        index_html_file: /var/www/html/index.html
+
+- name: Import test playbook
+  import_playbook: a01_test_web_connection.yml
+  vars:
+    url: 'http://10.0.12.183'
+

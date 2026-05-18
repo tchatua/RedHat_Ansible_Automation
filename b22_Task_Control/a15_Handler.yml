@@ -1,0 +1,48 @@
+
+---
+- name: Ansible handlers
+  hosts: dev        # run on all servers in the dev group
+  become: true      # escalate to root
+  gather_facts: yes # collect system facts (OS, memory, mounts, etc.)
+
+  tasks:
+    - name: Mount the OS Media drive
+      ansible.builtin.command: mount /dev/sr0 /mnt  
+      ignore_errors: true
+
+    - name: Copy the local repo file
+      ansible.builtin.copy: 
+        src: /home/ec2-user/a15_Task_Control/myrepo.list
+        dest: /etc/apt/sources.list.d/myrepo.list
+
+    - name: Install multiple packages
+      ansible.builtin.apt: 
+        name: "{{ item }}"
+        state: latest
+      with_items:
+        - vsftpd
+        - apache2
+        - postfix
+        - dovecot
+
+    - name: Start and Enable VSFTPD Services
+      ansible.builtin.service:
+        name: vsftpd 
+        state: started
+        enabled: true
+
+
+    - name: Create web content
+      ansible.builtin.copy:
+        src: /home/ec2-user/a15_Task_Control/roles/myvhost/files/html
+        dest: /var/www/vhosts/{{ ansible_hostname }}
+        recursive: yes
+      notify:
+        - restart_apache2
+
+  # Handlers
+  handlers:
+    - name: restart_apache2
+      ansible.builtin.service:
+        name: apache2
+        state: restarted
